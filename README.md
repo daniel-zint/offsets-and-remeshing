@@ -23,7 +23,7 @@ The Orthree in CGAL needs to be slightly modified:
 Example input for command line interface _voxeloffset_cli_.
 
 ```
-./build/src/voxeloffset_cli/Voxeloffset_cli -p "../../data/loader_normalized.off" -o "loader_d12_r5/out.off" --debugout "loader_d12_r5" -d --d1 12 --d2 18 -r 1 -n -q
+./build/src/voxeloffset_cli/Voxeloffset_cli -p "../../data/cube.off" -o "out.off" --debugout "debug_folder" -d --d1 10 --d2 12 -r 1 -n -q -j 0.1
 ```
 
 Explanation:
@@ -39,11 +39,12 @@ Explanation:
 - `--lminfactor` multiplier for the minimal edge length
 - `--lmaxfactor` multiplier for the maximal edge length
 - `-n` normalize input mesh to the unit cube
+- `-j` offset radius
 
 ## Remeshing only
 
 ```
-./build/src/voxeloffset_cli/Voxeloffset_cli -p "../../data/loader_normalized.off" --remeshinput "loader_triangulated_d12_outer.off" -o "loader_d12_outer_r5/out.off" --debugout "loader_d12_outer_r5" -r 1 -q -j 0.01
+./build/src/voxeloffset_cli/Voxeloffset_cli -p "../../data/cube.off" --remeshinput "cube_offset.off" -o "out.off" --debugout "debug_folder" -r 1 -q -j 0.1
 ```
 
 Explanation:
