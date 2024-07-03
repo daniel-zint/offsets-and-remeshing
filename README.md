@@ -42,6 +42,8 @@ Explanation:
 - `-n` normalize input mesh to the unit cube
 - `-j` offset radius
 
+To compare against alpha wrapping, one can use the flag `--alpha_wrap`. The program will then only execute alpha wrapping and write the result to the given output file.
+
 ## Remeshing only
 
 ```

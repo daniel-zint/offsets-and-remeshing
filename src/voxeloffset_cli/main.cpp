@@ -1,3 +1,4 @@
+#include <CGAL/alpha_wrap_3.h>
 #include <CGAL/Polygon_mesh_processing/orientation.h>
 #include <CGAL/Real_timer.h>
 #include <CLI/CLI.hpp>
@@ -33,6 +34,7 @@ int main(int argc, char* argv[]) {
     bool use_normalize_mesh = false;
     bool perform_quality_tests = false;
     bool use_diag = false;
+    bool perform_alpha_wrap = false;
 
     app.add_option("-j,--radius", offset_radius, "The offset radius/distance to the primal mesh");
     app.add_flag("--diag", use_diag, "Set offset radius relative to the bbox diagonal");
@@ -63,6 +65,8 @@ int main(int argc, char* argv[]) {
     app.add_flag("-n,--normalize", use_normalize_mesh, "Transform mesh to the unit cube");
 
     app.add_flag("-q", perform_quality_tests, "Perform quality tests");
+
+    app.add_flag("--alpha_wrap", perform_alpha_wrap, "Perform alpha wrapping instead");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -139,6 +143,22 @@ int main(int argc, char* argv[]) {
 
     if (fs::exists(debug_output_folder_dc)) {
         print_mesh(primal_mesh, debug_output_folder_dc / "primal.off");
+    }
+
+
+    if (perform_alpha_wrap) {
+        std::cout << "Perform Alpha Wrapping!!" << std::endl;
+        CGAL::Real_timer t;
+        t.start();
+        SurfaceMesh wrap;
+        CGAL::alpha_wrap_3(primal_mesh, offset_radius / 5, offset_radius, wrap);
+        t.stop();
+        std::cout << "Result: " << num_vertices(wrap) << " vertices, " << num_faces(wrap) << " faces" << std::endl;
+        std::cout << "Took " << t.time() << " s." << std::endl;
+
+        print_mesh(wrap, output_path);
+
+        return 1;
     }
 
     CGAL::Real_timer timer;
