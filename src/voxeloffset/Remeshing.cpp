@@ -672,7 +672,6 @@ size_t Remeshing::collapse_halfedge() {
             }
         } else {
             for( const Halfedge_descriptor ht: halfedges_around_target( vkept, mesh_ ) ) {
-                const Halfedge_descriptor ht = mesh_.halfedge( e );
                 const Point p0               = mesh_.point( mesh_.source( ht ) );
                 const Point p1               = mesh_.point( mesh_.target( ht ) );
                 const FT l                   = ( p1 - p0 ).squared_length();
