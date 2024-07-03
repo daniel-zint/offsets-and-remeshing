@@ -32,10 +32,10 @@ int main(int argc, char* argv[]) {
     FT max_normal_deviation = 7;
     bool use_normalize_mesh = false;
     bool perform_quality_tests = false;
-    FT diag = FT_MAX;
+    bool use_diag = false;
 
     app.add_option("-j,--radius", offset_radius, "The offset radius/distance to the primal mesh");
-    app.add_option("--diag", diag, "Set offset radius relative to the bbox diagonal");
+    app.add_flag("--diag", use_diag, "Set offset radius relative to the bbox diagonal");
     app.add_option("-p,--primal", primal_path, "primal mesh")->required();
     app.add_option("-o,--output", output_path, "output mesh")->required();
 
@@ -80,6 +80,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Output: " << output_path << std::endl;
     std::cout << "Offset radius: " << offset_radius << std::endl;
     std::cout << "Normalize primal: " << use_normalize_mesh << std::endl;
+    std::cout << "Use relative length: " << use_diag << std::endl;
     std::cout << "Run DC: " << run_dual_contouring << std::endl;
     if (run_dual_contouring) {
         std::cout << "  d0: " << d0 << std::endl;
@@ -123,11 +124,11 @@ int main(int argc, char* argv[]) {
         normalize_mesh(primal_mesh);
     }
 
-    if (diag < FT_MAX) {
-        std::cout << "Re-compute offset radius from the bbox diagonal.";
+    if (use_diag) {
+        std::cout << "Re-compute offset radius from the bbox diagonal." << std::endl;
         const CGAL::Bbox_3 bb = PMP::bbox(primal_mesh);
         const FT diag_length = CGAL::sqrt(bb.x_span() * bb.x_span() + bb.y_span() * bb.y_span() + bb.z_span() * bb.z_span());
-        offset_radius = diag * diag_length;
+        offset_radius *= diag_length;
         std::cout << "New Offset radius: " << offset_radius << std::endl;
     }
 

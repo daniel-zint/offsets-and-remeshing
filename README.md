@@ -31,6 +31,7 @@ Explanation:
 - `-p` primal mesh
 - `-o` output mesh
 - `--debugout` folder for debug output
+- `--diag` set offset radius relative to the bbox diagonal
 - `-d` perform Dual Contouring
 - `--d0` minimum octree subdivision level (can be 0)
 - `--d1` maximum octree subdivision level (must be greater than `d0`)
