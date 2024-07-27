@@ -124,6 +124,10 @@ int main(int argc, char* argv[]) {
     CGAL::IO::read_OFF(in, primal_mesh);
     LOG_ASSERT(in);
 
+    if (primal_mesh.number_of_faces() == 0) {
+        LOG(FATAL) << "Empty mesh";
+    }
+
     if (use_normalize_mesh) {
         normalize_mesh(primal_mesh);
     }
